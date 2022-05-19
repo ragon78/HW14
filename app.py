@@ -111,6 +111,26 @@ def main():
             })
         return jsonify(response_json)
 
+    def get_actors(name1='Rose McIver', name2='en Lamb'):
+        query = f"""
+             SELECT
+                 "cast"
+             FROM netflix
+             WHERE "cast" LIKE '%{name1}%'
+                 AND "cast" LIKE '%{name2}%'
+             """
+        response = db_connect(query)
+        actors = []
+        for cast in response:
+            actors.extend(cast[0].split(', '))
+        result = []
+        for a in actors:
+            if actors.count(a) > 2:
+                result.append(a)
+        result = set(result)
+        print(result)
+
+
     def get_films(type_film, release_year, genre):
         query = f"""
             SELECT
